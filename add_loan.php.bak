@@ -5,6 +5,10 @@ $user_name = "lielbn_sysuser";
 $password = "sysuser1234!@";
 $database_name = "lielbn_libraryManage";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // create connection
 $conn = new mysqli($server_name, $user_name, $password, $database_name);
 mysqli_set_charset($conn, "utf8");
