@@ -164,12 +164,12 @@ function openEditPopup(diamondId) {
 // Add an event listener for the "Edit" buttons
 const editButtons = document.querySelectorAll('.edit-button');
 
-editButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const diamondId = button.getAttribute('data-diamond-id');
-        openEditPopup(diamondId);
-    });
-});
+// editButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         const diamondId = button.getAttribute('data-diamond-id');
+//         openEditPopup(diamondId);
+//     });
+// });
 
 // Opens Edit popup
 popupEditButton.addEventListener('click', () => {
