@@ -1,0 +1,507 @@
+body {
+    font-family: Georgia;
+    background-color:#EBE7E0 ;
+    margin: 0;
+    padding: 0;
+}
+
+.navButton {
+    width: 80%;
+    border-width: 1px;
+    border-style:ridge;
+    height: 4em;
+    border-radius: 15px;
+    font-size: 20px;
+    font-family: inherit;
+    margin-bottom: 30px;
+    position: relative;
+    /* overflow: hidden; */
+    /* z-index: 1; */
+    /* box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #E4E4E4; */
+}
+
+/* .navButton::before {
+    content: '';
+    width: 0;
+    height: 3em;
+    border-radius: 30em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #C5FF78 0%, #C5FF78 100%);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+} */
+
+/* .navButton:hover::before {
+    width: 100%;
+} */
+
+/* #headerMenu {
+    width: 100%; 
+    height: 4%;
+    background-color: #4D622E;
+    display: flex;
+    align-items: center;
+    justify-content:center; 
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); 
+} 
+
+#headerMenu span {
+    font-family: Georgia;
+    font-size: calc(10px + 1vw);
+    color: #bfc7c3;
+} */
+
+/*img {*/
+/*    object-fit: contain;*/
+/*}*/
+
+#logo {
+    height: 180px;
+}
+
+#logoDiv{
+    display: inline-block;
+    text-align: center;
+    width: 100%; /* This ensures the content takes the full width of the span */
+}
+
+#titleDiv{
+    height: 200px;
+    display: flex;
+    flex-direction: column; /* Ensure content is stacked vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    background-image: url('images/title_bg.jpg'); /* Use url() to specify the image path */
+    background-size: cover; /* Adjust based on your preference (e.g., cover, contain) */
+    background-position: center; /* Center both horizontally and vertically */
+    margin-bottom: 40px;
+}
+
+#titleDiv h1{
+    margin-top:2%;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    margin-top: 4%;
+    /* border-collapse: collapse; */
+    /* border-radius: 50px; */
+}
+
+th, td {
+    padding: 10px;
+    /* border-bottom: 1px solid #bfc7c3 */
+    ;
+}
+
+td {
+    font-size: 12px;
+}
+
+th {
+    font-size: 16px;
+    background-color: #b7967d;
+}
+
+tbody {
+    background-color: #CEB9AA !important;
+} 
+
+.container-fluid{
+    display: flex;
+    align-items: center;
+}
+
+.row{
+    display: flex;
+    width: 100%;
+}
+
+.nav{
+    margin-top: 10%;
+   
+}
+
+.col-lg-2 {
+    height: 100vh;
+    background-color:#bfc7c3;
+    margin-top: 0.1%;
+    justify-content: center;
+}
+
+@media screen and (max-width: 992px) {
+    .col-lg-2 {
+        height: 15%;
+    }
+}
+
+h1{
+    font-family: Georgia;
+    font-weight:bolder;
+    color: #000;
+    text-align: center;
+    margin-top: 2%;
+    font-size: calc(18px + 1.5vw); /* Adjust the base and factor as needed */
+}
+
+/*Send button the book name & author to API*/
+.actionButton{
+    position: relative;
+    margin: auto;
+    padding: 12px 30px;
+    background: #E8DCD3;
+    transition: all 0.5s ease;
+    border-style:ridge;
+    border-radius: 15px;
+    margin-right: 20px;
+    font-size: 18px;
+    width: 200px;
+    font-family: Georgia;
+}
+
+.actionButton:hover {
+    background-color: #708277;
+    /* transform: translateY(10px); */
+}
+
+nav button{
+    background-color: #708277;
+    width: 80%;
+    height: 4em;
+    font-size: 22px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+}
+
+.nav{
+    align-items: center;
+}
+
+h2{
+    font-family: Georgia;
+    margin-top: 1%;
+    margin-bottom: 2%;
+}
+
+.popupContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(105, 95, 80, 0.5); /* Semi-transparent black */
+    z-index: 1000; 
+}
+
+.popupContent {
+    background-color: #F6F5F3;
+    background-image: url('images/popup_bg.png');
+    background-size:contain;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 55%;
+    padding: 2%;
+    position: absolute; 
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    
+}
+
+#customerContainer{
+        justify-content: center;    
+
+}
+
+.inputGroup {
+    font-family: Tahoma;
+    /* margin: 1em 0 1em 0; */
+    /* max-width: 1000px; */
+}
+
+.inputGroup input {
+    font-size: 110%;
+    padding: 0.8em;
+    outline: none;
+    border: 1px solid rgb(191, 199, 195);
+    background-color: #EBE7E0;
+    border-radius: 15px;
+    width: 100%;
+    margin-right: 5%;
+}
+
+.pButton {
+    padding: 1.3em 1em;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #C3CDB4;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    height: auto;
+    width: 20%;
+    
+}
+
+.pButtonCancel{
+    background-color: #EBE7E0;
+    order: 1 /* Set the order to 1 to move it to the left */
+
+}
+
+.pButtonSubmit {
+    order: 2; /* Set the order to 2 to move it to the right */
+}
+
+.pButton:hover{
+    background-color: #E0E4E2;
+    /* box-shadow: 0px 15px 20px rgba(197, 255, 120, 0.4); */
+    /* color: #000000; */
+    /* transform: translateY(-3px); */
+}
+
+
+/************/
+
+.editInputField {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: static;
+    max-width: 240px;
+}
+
+.editInputField label {
+    font-size: 1rem;
+    color: black;
+    font-weight: 700;
+    position: relative;
+    top: 0.4rem;
+    margin: 0 0 0 7px;
+    padding: 0 2px;
+    font-family:'Segoe UI', sans-serif;
+    width: fit-content;
+}
+
+.editInputField input.input {
+    padding: 11px 10px;
+    font-size: 1rem;
+    border: 2px #C5FF78 solid;
+    border-radius: 5px;
+    background: #f2f0f0;
+}
+
+.editInputField input[type=text].input:focus {
+    outline: none;
+}
+.editInputField select {
+    padding: 11px 10px;
+    font-size: 1rem;
+    border: 2px #C5FF78 solid;
+    border-radius: 5px;
+    background: #f2f0f0;
+}
+
+.buttonsSections{
+    text-align: center; 
+    padding-top: 5%;
+    padding-bottom: 2%;
+    display: flex; 
+    justify-content:space-evenly;
+
+ }   
+ .priceSection{
+    border-style: solid;
+    border-color: #C5FF78; 
+    display:flex; 
+    justify-content: space-around; 
+    margin: 5% ;
+    padding: 5%;
+ }
+   
+.input {
+    padding: 12px 18px;
+    margin: 10px 5px;
+    border-style:groove;
+    border-radius: 15px;
+    outline: none;
+    background-color: #EBE7E0;
+    color: #0d0c22;
+    transition: .3s ease;
+   }
+   
+.input::placeholder {
+        color: #000;
+   }
+   
+.input:focus, input:hover {
+    outline: none;
+    background-color: #E0E4E2;
+    box-shadow: 0 0 0 4px #708277;
+   }
+
+select#status option {
+    font-style:inherit;
+    font-size: 11pt;
+ }
+
+.searchFields{
+    margin-bottom: 6%;
+}
+
+
+#action_buttons {
+    display: flex;
+    margin-bottom: 2%;
+    padding: 10px;
+    justify-content: left;
+    margin-top: 2%;
+}
+
+#searchButton {
+    width: 90%;
+}
+
+
+
+ /* To remove?? */
+
+/*ACTION BUTTONS DESIGN: */
+/* main button1 {
+    padding: 30px 60px    ;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin-right: 10px;
+    font-weight: 500;
+    color: #aa0f0f;
+    background-color: #fff;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    text-align: center;
+} */
+  
+ /* nav button {
+    width: 100%;
+    height: 2.5em; /* Adjusted height for a more compact look
+    margin-bottom: 10px;
+    border-radius: 5px; /* Adjusted border-radius for a slightly rounded look
+    font-size: 16px;
+    font-family: inherit;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    background-color: #7FA68F;
+    color: #fff;
+    transition: background-color 0.3s ease;
+} */
+
+
+/* The container must be positioned relative: */
+.custom-select {
+    position: relative;
+    font-family:Georgia;
+    background-color: #F8F7F4;
+    font-size: x-large;
+  }
+  
+.EndLoanBookDetails {
+    font-family: Georgia;
+    font-size: x-large;  
+    /* Add any additional styles here */
+}
+
+#endLoanContainer label {
+    font-size: x-large;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.searchInput{
+    margin-right: 20px;
+    width: 250px;
+}
+
+.modalContent{
+    text-align: center; 
+    height: 30%;
+}
+
+#confirmDeleteButton{
+    background-color: #A65D5D;
+}
+
+
+
+/* TEST */
+
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 300px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: #2980b9;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.error {
+    color: red; 
+    font-size: 14px;
+        text-align: center;
+
+}
+
