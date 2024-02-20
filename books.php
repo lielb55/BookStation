@@ -112,7 +112,6 @@
                     </table>
                     <!-- Confirmation Modal -->
                     <div id="deleteConfirmationPopup" class="modal">
-                        <!--id="deleteConfirmationPopupContent"-->
                         <div class="modalContent popupContent">
                             <h2 style="margin-bottom: 5%">Confirm if you want to proceed with deleting this book?</h2>
                             <div style="display: inline-block;">

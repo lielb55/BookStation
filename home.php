@@ -117,8 +117,6 @@ body {
 
             <div class="col-lg-10">
                 <main>
-                    <!--<div id="titleDiv"><h1>Home</h1></div>-->
-
                         <h1 id="homePageH1">Book Station - Manage all in one place</h1>
                         
                         <div id="infoRow">
