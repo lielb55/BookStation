@@ -43,17 +43,11 @@ deleteButtons.forEach(button => {
     });
 });
 
+// Add click event listeners to the popup buttons
 confirmDeleteButton.addEventListener('click', () => {
     // Make an AJAX call to trigger the PHP file to delete the book
-    console.log("Deleting book with ID:", bookIdToDelete);
-
-    fetch(`delete_book.php?bookId=${bookIdToDelete}`)
+    fetch(`delete_book.php?bookid=${bookIdToDelete}`)
         .then(response => response.json())
-        console.log("Server Response line 52:", response)
-        // .then(response => {
-        //     console.log("Server Response:", response);
-        //     return response.json();
-        // })
         .then(data => {
             // Handle the response from the PHP file (e.g., display a success message)
             console.log(data);
@@ -65,11 +59,8 @@ confirmDeleteButton.addEventListener('click', () => {
             // Reload the inventory page or perform any other desired actions
             location.reload();
         })
-        .catch(error => console.error("Error deleting book:", error.message || error));
+        .catch(error => console.error("Error deleting book:", error));
 });
-
-
-
 
 cancelDeleteButton.addEventListener('click', () => {
     // Close the confirmation modal if the user clicks "No"
@@ -172,60 +163,62 @@ popupAddButton.addEventListener('click', () => {
         xhr.send(JSON.stringify({ Title: fullBookName }));
         
             // Add event listeners to each input field to trigger validation on blur
-        document.getElementById('bookName').addEventListener('blur', validateBookName);
-        document.getElementById('pages').addEventListener('blur', validatePages);
-    
-        // Attach the validateForm function to the form submission event
-        const bookForm = document.querySelector('#bookForm');
-        bookForm.addEventListener('submit', function(event) {
-            if (!validateBookForm()) {
-                event.preventDefault(); // Prevent form submission if there are errors
-            }
-        });
+    document.getElementById('bookName').addEventListener('blur', validateBookName);
+    document.getElementById('pages').addEventListener('blur', validatePages);
 
-        //Liel
-        // Add click event listener to the submit button
-        document.getElementById('submitButton').addEventListener('click', function () {
-            // Get values from input fields
-            var title = document.getElementById('bookName').value;
-            var author = document.getElementById('author').value;
-            var genre = document.getElementById('genre').value;
-            var publisher = document.getElementById('publisher').value;
-            var pages = document.getElementById('pages').value;
+    // Attach the validateForm function to the form submission event
+    const bookForm = document.querySelector('#bookForm');
+    bookForm.addEventListener('submit', function(event) {
+        if (!validateBookForm()) {
+            event.preventDefault(); // Prevent form submission if there are errors
+        }
+    });
+    
+    
+    //Liel
+    // Add click event listener to the submit button
+    document.getElementById('submitButton').addEventListener('click', function () {
+        // Get values from input fields
+        var title = document.getElementById('bookName').value; // Assuming your book name input has the id 'bookName'
+        var author = document.getElementById('author').value;
+        var genre = document.getElementById('genre').value;
+        var publisher = document.getElementById('publisher').value;
+        var pages = document.getElementById('pages').value;
+    
+        // Create an object with the data
+        var data = {
+            title: title, // Add the title field
+            author: author,
+            genre: genre,
+            publisher: publisher,
+            pages: pages
+            // Add other fields as needed
+        };
+    
+        // Make an AJAX call to the server
+        fetch('add_book.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.text())
+        .then(result => {
+            // Handle the result from the server
+            console.log(result);
+            // You can add further handling or notifications here
+        })
+        .catch(error => console.error("Error submitting form:", error));
         
-            // Create an object with the data
-            var data = {
-                title: title,
-                author: author,
-                genre: genre,
-                publisher: publisher,
-                pages: pages
-            };
-        
-            // Make an AJAX call to the server
-            fetch('add_book.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.text())
-            .then(result => {
-                // Handle the result from the server
-                console.log(result);
-                // You can add further handling or notifications here
-        
-                // Reload the page after the AJAX call is completed
-                location.reload();
-            })
-            .catch(error => console.error("Error submitting form:", error));
-            
-            // Optionally, you can add a delay before hiding the container
-            setTimeout(function() {
-                popupLoanContainer.style.display = "none";
-            }, 1200); // Adjust the delay time (in milliseconds) as needed
-        });
+        // popupAddContainer.style.display = "none";
+        // sleep(2000);  // wait the record to be created
+        location.reload()
+        setTimeout(function() {
+            popupLoanContainer.style.display = "none";
+            location.reload();
+        }, 1500); // Adjust the delay time (in milliseconds) as needed
+
     });
 
     //End Liel
@@ -248,9 +241,9 @@ popupAddButton.addEventListener('click', () => {
     
 });
 
-// function sleep(ms) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function openAddBookPopup() {
     console.log("add popup");
@@ -344,7 +337,7 @@ function validateBookNameError() {
 }
 
 // Add click event listener to the submit button
-submitButton.addEventListener('click', (event) => {
+submitButton.addEventListener('click', function(event) {
     // Prevent the default form submission behavior
     event.preventDefault();
 
@@ -361,3 +354,4 @@ submitButton.addEventListener('click', (event) => {
     console.log('Form submitted successfully.');
     // Add your form submission logic here
 });
+
