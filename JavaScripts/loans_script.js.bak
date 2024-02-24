@@ -14,19 +14,34 @@ const cancelEndLoan = document.getElementById('cancelEndLoan');
 // Add event listener to the availabilityDropdown
 const availabilityDropdown = document.getElementById("availabilityDropdown");
 availabilityDropdown.addEventListener("change", function () {
-    filterTable();
-    searchByNameFunction(); // Add this line to trigger the search function
+    const selectedValue = this.value;  // Get the selected value
+    filterTable(selectedValue);  // Pass the selected value to filterTable
+    searchByNameFunction(selectedValue); // Add this line to trigger the search function
 });
 
 
-// Initial table setup
-filterTable();
+// After the page loads, set the filter based on the stored value in localStorage
+const storedAvailabilityFilter = localStorage.getItem("availabilityFilter");
+if (storedAvailabilityFilter) {
+    availabilityDropdown.value = storedAvailabilityFilter;
+    filterTable(storedAvailabilityFilter);
+} else {
+    // If no filter is stored, set the default filter
+    availabilityDropdown.value = "Active";
+    filterTable("Active");
+}
 
-function filterTable() {
-    var input, table, tr, td, i;
-    input = document.getElementById("availabilityDropdown").value;
+
+// Initial table setup
+filterTable(availabilityDropdown.value);  // Pass the initial selected value
+
+function filterTable(selectedValue) {
+    var table, tr, td, i;
     table = document.getElementById("loansTable");
     tr = table.getElementsByTagName("tr");
+
+    // Move the initialization of previousFilter here
+    let previousFilter = selectedValue;
 
     for (i = 0; i < tr.length; i++) {  // run for each row
         td = tr[i].getElementsByTagName("td")[4]; // Get "Loan end date" Column Value
@@ -36,24 +51,44 @@ function filterTable() {
         if (td && endLoanColumn) {
             const loanEndDate = td.textContent || td.innerText;
 
-            if (input === "Any" || (input === "Active" && loanEndDate === "") || (input === "Not active" && loanEndDate !== "")) {
+            if (selectedValue === "Any" || (selectedValue === "Active" && loanEndDate === "") || (selectedValue === "Not active" && loanEndDate !== "")) {
                 tr[i].style.display = "";
-                endLoanColumn.style.display = (input === "Not active") ? "none" : ""; // Hide "End loan" column for "Not active" filter
-                endLoanHeader.style.display = (input === "Not active") ? "none" : ""; // Hide "End loan" header for "Not active" filter
+                endLoanColumn.style.display = (selectedValue === "Not active") ? "none" : ""; // Hide "End loan" column for "Not active" filter
+                endLoanHeader.style.display = (selectedValue === "Not active") ? "none" : ""; // Hide "End loan" header for "Not active" filter
             } else {
                 tr[i].style.display = "none";
             }
         }
     }
-    
-    // Add this line to trigger the search function
-    searchByNameFunction();
+
+    // Update the global variable with the new selected value
+    previousFilter = selectedValue;
+
+    // Add this line to trigger the search function and pass previousFilter as an argument
+    searchByNameFunction(previousFilter);
 }
 
 // Add a global variable to store the previous filter state
-let previousFilter = document.getElementById("availabilityDropdown").value;
+let previousFilter = availabilityDropdown.value;
 
-function searchByNameFunction() {
+
+// Add an event listener to customerNameInput
+const customerNameInput = document.getElementById("customerNameInput");
+customerNameInput.addEventListener("input", function () {
+    // Check if the input is empty
+    if (this.value.trim() === "") {
+        // Reset the table to its original state based on the current selected loan status
+        filterTable(availabilityDropdown.value);
+    } else {
+        // Trigger the search function with the current input
+        searchByNameFunction(availabilityDropdown.value);
+    }
+});
+
+// Call applyFilter after reloading the page
+applyFilter(availabilityDropdown.value);
+
+function searchByNameFunction(previousFilter) {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("customerNameInput");
     filter = input.value.toUpperCase();
@@ -153,14 +188,17 @@ function handleNewLoanSubmit() {
         },
         body: JSON.stringify(loanData)
     })
-        .then(response => response.text())
-        .then(data => {
-            // Handle the response from the PHP file (e.g., display a success message)
-            console.log(data);
-            // You can add further handling or notifications here
-        })
-        .catch(error => console.error("Error inserting data:", error));
-
+    .then(response => response.text())
+    .then(data => {
+    // Handle the response from the PHP file (e.g., display a success message)
+    console.log(data);
+    // You can add further handling or notifications here
+    })
+    .catch(error => console.error("Error inserting data:", error));
+    
+    // Save the current availability filter to localStorage
+    localStorage.setItem('availabilityFilter', availabilityDropdown.value);
+        
     // Adding a delay before reloading the page
     setTimeout(function () {
         popupLoanContainer.style.display = "none";

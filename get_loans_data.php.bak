@@ -35,11 +35,9 @@ if (isset($_GET['loanId'])) {
     }
 } else {
     // Fetch data for all loans
-    $sql = "SELECT `bookLoans`.loanId, `bookLoans`.bookIdF, `books`.title as bookTitle, `customers`.fullName as customerName, `bookLoans`.loanStartDATE, `bookLoans`.loanEndDate
+    $sql = "SELECT `bookLoans`.loanId, `bookLoans`.bookIdF, `customers`.fullName as customerName, `bookLoans`.loanStartDATE, `bookLoans`.loanEndDate
         FROM `bookLoans`
-        JOIN `customers` ON `bookLoans`.customerIdF = `customers`.customerId 
-        JOIN `books` ON `bookLoans`.bookIdF = `books`.bookId
-        ORDER BY `bookLoans`.loanStartDATE DESC;";
+        JOIN `customers` ON `bookLoans`.customerIdF = `customers`.customerId;";
 
     $result = mysqli_query($conn, $sql);
 
@@ -48,7 +46,6 @@ if (isset($_GET['loanId'])) {
         echo "<tr>";
         echo "<td>{$row['loanId']}</td>";
         echo "<td>{$row['bookIdF']}</td>";
-        echo "<td>{$row['bookTitle']}</td>";
         echo "<td>{$row['customerName']}</td>";
         echo "<td>{$row['loanStartDATE']}</td>";
         echo "<td>{$row['loanEndDate']}</td>";
