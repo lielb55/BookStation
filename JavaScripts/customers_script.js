@@ -491,7 +491,7 @@ function validateFormEdit() {
 }
 
 // Attach the validateForm function to the form submission event
-const customerFormEdit = document.querySelector('#customerContainer form');
+const customerFormEdit = document.querySelector('#editCustomerContainer form');
 customerFormEdit.addEventListener('submit', function(event) {
     if (!validateFormEdit()) {
         event.preventDefault(); // Prevent form submission if there are errors

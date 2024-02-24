@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+
 </head>
 <body>
     <div class="container-fluid" >
@@ -29,20 +31,19 @@
 
                         <input id="customerNameInput" placeholder="Search by Customer Name" type="search" class="input searchInput" oninput="searchByNameFunction()">
 
-
+                        
                         <div style="display: inline-block;">
                             <legend style="font-size:18px; padding-left: 6%;">Filter by loan status</legend>
                             <select id="availabilityDropdown" onchange="filterTable()" style="border-radius: 15px;margin: auto; padding: 15px 50px; border-style: solid; background-color: #E8DCD3;">
                                 <option>Active</option>
                                 <option>Not active</option>
-                                <option>Any</option>
                             </select>
-                            
                         </div>
 
                         <div class="popupContainer" id="loanContainer">
                             <div class="popupContent" style="text-align: center;">
                                 <h2>Add loan</h2>
+
 
                                 <div style="padding-top: 5%;">
                                     <label style="font-size:x-large;" for="bookIdNewLoan">Select a book:</label>
@@ -51,6 +52,8 @@
                                         <?php include('books_dropdown.php'); ?>
                                     </select>
                                 </div>
+                                
+
 
                                 <div style="padding-top: 5%;">
                                     <label style="font-size:x-large;" for="customerIdNewLoan">Select a customer:</label>
@@ -64,6 +67,11 @@
                                     <button class="pButton pButtonSubmit" id="submitLoanButton">Submit</button>
                                     <button class="pButton pButtonCancel" id="cancelLoan">Cancel</button>
                                 </div>
+                                
+                            <div id="errorsDiv">
+                                <p><span id="loanError" class="error" style="display: block; text-align: center;"></span></p>
+                            </div>
+                            
                             </div>
                         </div>
 
@@ -72,19 +80,24 @@
                                 <h2>Return a book</h2>
 
                                 <div style="padding-top: 5%;">
-                                    <p id=bookIdEndLoan class="EndLoanBookDetails"><label for="bookIdEndLoan">Book ID:</label><span id="displayBookId"></span></p>
-                                </div>
-
-                                <div style="padding-top: 2%;">
-                                    <p id=customerIdEndLoan class="EndLoanBookDetails"><label for="customerIdEndLoan">Customer ID:</label><span id="displayCustomerId"></span></p>
+                                    <p id="bookIdEndLoan" class="EndLoanBookDetails"><label for="bookIdEndLoan">Book ID: </label><span id="displayBookId"></span></p>
                                 </div>
                                 
                                 <div style="padding-top: 2%;">
-                                    <p id=customerNameEndLoan class="EndLoanBookDetails"><label for="customerNameEndLoan">Customer Name:</label><span id="displayCustomerName"></span></p>
+                                    <p id="bookTitleEndLoan" class="EndLoanBookDetails"><label for="bookTitleEndLoan">Book Title: </label><span id="displayBookTitle"></span></p>
+                                </div>
+
+                                
+                                <div style="padding-top: 2%;">
+                                    <p id="customerIdEndLoan" class="EndLoanBookDetails"><label for="customerIdEndLoan">Customer ID: </label><span id="displayCustomerId"></span></p>
+                                </div>
+                                
+                                <div style="padding-top: 2%;">
+                                    <p id="customerNameEndLoan" class="EndLoanBookDetails"><label for="customerNameEndLoan">Customer Name: </label><span id="displayCustomerName"></span></p>
                                 </div>
 
                                 <div class ="buttonsSections">
-                                    <button class="pButton pButtonSubmit" id="submitEndLoanButton">Submit</button>
+                                    <button class="pButton pButtonSubmit" id="submitEndLoanButton">Return</button>
                                     <button class="pButton pButtonCancel" id="cancelEndLoan">Cancel</button>
                                 </div>
                             </div>
@@ -95,6 +108,7 @@
                                 <tr>
                                     <th>Loan ID</th>
                                     <th>Book ID</th>
+                                    <th>Book Title</th>
                                     <th>Customer Full Name</th>
                                     <th>Loan start date</th>
                                     <th>Loan end date</th>

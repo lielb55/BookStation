@@ -21,15 +21,15 @@ availabilityDropdown.addEventListener("change", function () {
 
 
 // After the page loads, set the filter based on the stored value in localStorage
-const storedAvailabilityFilter = localStorage.getItem("availabilityFilter");
-if (storedAvailabilityFilter) {
-    availabilityDropdown.value = storedAvailabilityFilter;
-    filterTable(storedAvailabilityFilter);
-} else {
-    // If no filter is stored, set the default filter
-    availabilityDropdown.value = "Active";
-    filterTable("Active");
-}
+// const storedAvailabilityFilter = localStorage.getItem("availabilityFilter");
+// if (storedAvailabilityFilter) {
+//     availabilityDropdown.value = storedAvailabilityFilter;
+//     filterTable(storedAvailabilityFilter);
+// } else {
+//     // If no filter is stored, set the default filter
+//     availabilityDropdown.value = "Active";
+//     filterTable("Active");
+// }
 
 
 // Initial table setup
@@ -44,14 +44,14 @@ function filterTable(selectedValue) {
     let previousFilter = selectedValue;
 
     for (i = 0; i < tr.length; i++) {  // run for each row
-        td = tr[i].getElementsByTagName("td")[4]; // Get "Loan end date" Column Value
-        const endLoanColumn = tr[i].getElementsByTagName("td")[5]; // Get "End loan" Column - if the filtering is on "Not active," we need to hide this column
+        td = tr[i].getElementsByTagName("td")[5]; // Get "Loan end date" Column Value
+        const endLoanColumn = tr[i].getElementsByTagName("td")[6]; // Get "End loan" Column - if the filtering is on "Not active," we need to hide this column
         const endLoanHeader = document.getElementById("endLoanHeader");
 
         if (td && endLoanColumn) {
             const loanEndDate = td.textContent || td.innerText;
 
-            if (selectedValue === "Any" || (selectedValue === "Active" && loanEndDate === "") || (selectedValue === "Not active" && loanEndDate !== "")) {
+            if ((selectedValue === "Active" && loanEndDate === "") || (selectedValue === "Not active" && loanEndDate !== "")) {
                 tr[i].style.display = "";
                 endLoanColumn.style.display = (selectedValue === "Not active") ? "none" : ""; // Hide "End loan" column for "Not active" filter
                 endLoanHeader.style.display = (selectedValue === "Not active") ? "none" : ""; // Hide "End loan" header for "Not active" filter
@@ -99,8 +99,8 @@ function searchByNameFunction(previousFilter) {
     const selectedStatus = availabilityDropdown.value;
 
     for (i = 0; i < tr.length; i++) {
-        const statusColumnIndex = 4; // Index 4 for the "Loan end date" column
-        const nameColumnIndex = 2; // Index 2 for the "Customer Full Name" column
+        const statusColumnIndex = 5; // Index 5 for the "Loan end date" column
+        const nameColumnIndex = 3; // Index 3 for the "Customer Full Name" column
 
         tdStatus = tr[i].getElementsByTagName("td")[statusColumnIndex];
         tdName = tr[i].getElementsByTagName("td")[nameColumnIndex];
@@ -114,7 +114,7 @@ function searchByNameFunction(previousFilter) {
 
             // Check if the loan status matches the selected filter
             const statusMatches =
-                selectedStatus === "Any" ||
+                // selectedStatus === "Any" ||
                 (selectedStatus === "Active" && loanEndDate === "") ||
                 (selectedStatus === "Not active" && loanEndDate !== "");
 
@@ -142,7 +142,7 @@ function applyFilter(filter) {
     const tr = table.getElementsByTagName("tr");
 
     for (let i = 0; i < tr.length; i++) {
-        const statusColumnIndex = 4; // Index 4 for the "Loan end date" column
+        const statusColumnIndex = 5; // Index 5 for the "Loan end date" column
         tdStatus = tr[i].getElementsByTagName("td")[statusColumnIndex];
 
         if (tdStatus) {
@@ -150,7 +150,7 @@ function applyFilter(filter) {
 
             // Check if the loan status matches the selected filter
             const statusMatches =
-                filter === "Any" ||
+                // filter === "Any" ||
                 (filter === "Active" && loanEndDate === "") ||
                 (filter === "Not active" && loanEndDate !== "");
 
@@ -165,45 +165,57 @@ function applyFilter(filter) {
     
 // Function to handle the "Submit" button click for the "New Loan" popup
 function handleNewLoanSubmit() {
-    // Get the values you want to insert into the loans database
-    const bookIdNewLoan = document.getElementById("bookIdNewLoan");
-    const customerIdNewLoan = document.getElementById("customerIdNewLoan");
-
-    const bookId = parseInt(bookIdNewLoan.value);
-    const customerId = parseInt(customerIdNewLoan.value);
-
-    // Create an object to hold the data
-    const loanData = {
-        bookId,
-        customerId
-    };
-
-    console.log(loanData);
-
-    // Make an AJAX request to insert the data into the sales database
-    fetch("add_loan.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(loanData)
-    })
-    .then(response => response.text())
-    .then(data => {
-    // Handle the response from the PHP file (e.g., display a success message)
-    console.log(data);
-    // You can add further handling or notifications here
-    })
-    .catch(error => console.error("Error inserting data:", error));
     
-    // Save the current availability filter to localStorage
-    localStorage.setItem('availabilityFilter', availabilityDropdown.value);
+    var selectedBookValue = document.getElementById("bookIdNewLoan").value;
+    var selectedCustomerValue = document.getElementById("customerIdNewLoan").value;
+
+    if (selectedBookValue === "none" || selectedCustomerValue === "none") {
+        console.log("The selected value is 'None'.");
+        loanError.textContent = 'Book and customer values cannot be none';
+    }
+
+    else {
+        // Get the values you want to insert into the loans database
+        const bookIdNewLoan = document.getElementById("bookIdNewLoan");
+        const customerIdNewLoan = document.getElementById("customerIdNewLoan");
+    
+        const bookId = parseInt(bookIdNewLoan.value);
+        const customerId = parseInt(customerIdNewLoan.value);
+    
+        // Create an object to hold the data
+        const loanData = {
+            bookId,
+            customerId
+        };
         
-    // Adding a delay before reloading the page
-    setTimeout(function () {
-        popupLoanContainer.style.display = "none";
-        location.reload();
-    }, 1200); // Adjust the delay time (in milliseconds) as needed
+    
+        console.log(loanData);
+    
+        // Make an AJAX request to insert the data into the sales database
+        fetch("add_loan.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loanData)
+        })
+        .then(response => response.text())
+        .then(data => {
+        // Handle the response from the PHP file (e.g., display a success message)
+        console.log(data);
+        // You can add further handling or notifications here
+        })
+        .catch(error => console.error("Error inserting data:", error));
+        
+        // Save the current availability filter to localStorage
+        //localStorage.setItem('availabilityFilter', availabilityDropdown.value);
+            
+        // Adding a delay before reloading the page
+        setTimeout(function () {
+            popupLoanContainer.style.display = "none";
+            location.reload();
+        }, 1200); // Adjust the delay time (in milliseconds) as needed
+    }
 }
 
 // opens new loan popup
@@ -339,6 +351,9 @@ cancelLoan.addEventListener('click', () => {
     popupLoanContainer.style.display = 'none';
     bookIdSelect.value = 'none';
     customerIdSelect.value = 'none';
+    
+    document.getElementById('loanError').textContent = '';
+
 });
 
 // close end loan popup and reset values

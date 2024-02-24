@@ -1,11 +1,11 @@
 // Get the delete button elements with a class (adjust this selector accordingly)
-const deleteButtons = document.querySelectorAll('.delete-button');
+const editButtons = document.querySelectorAll('.delete-button');
 
 console.log("hello");
 // Get the confirmation modal and its buttons
-const deleteConfirmationPopup = document.getElementById('deleteConfirmationPopup');
-const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-const cancelDeleteButton = document.getElementById('cancelDeleteButton');
+const editBookPopup = document.getElementById('EditContainer');
+const submitEdit = document.getElementById('submitEdit');
+const cancelEdit = document.getElementById('CancelEdit');
 const cancelAdd = document.getElementById('cancelAdd');
 const popupAddButton = document.getElementById('AddBookPopupButton');
 const popupAddContainer = document.getElementById('AddContainer');
@@ -25,25 +25,29 @@ let bookIdToDelete;
 
 
 // Function to open the confirmation modal
-function openDeleteConfirmationPopup(bookId) {
+function openEditBookPopup(bookId) {
     bookIdToDelete = bookId;
-    deleteConfirmationPopup.style.display = 'block';
+    editBookPopup.style.display = 'block';
+    
+    document.getElementById('submitEdit').disabled = false; // Enable the submit button
+    document.getElementById('submitEdit').style.backgroundColor = '#C3CDB4'; // Remove the greyed-out style
+
 }
 
 // Function to close the confirmation modal
-function closeDeleteConfirmationPopup() {
-    deleteConfirmationPopup.style.display = 'none';
+function closeEditBookPopup() {
+    editBookPopup.style.display = 'none';
 }
 
 // Add click event listeners to all delete buttons
-deleteButtons.forEach(button => {
+editButtons.forEach(button => {
     button.addEventListener('click', () => {
         const bookId = button.getAttribute('data-book-id');
-        openDeleteConfirmationPopup(bookId);
+        openEditBookPopup(bookId);
     });
 });
 
-confirmDeleteButton.addEventListener('click', () => {
+submitEdit.addEventListener('click', () => {
     // Make an AJAX call to trigger the PHP file to delete the book
     console.log("Deleting book with ID:", bookIdToDelete);
 
@@ -60,7 +64,7 @@ confirmDeleteButton.addEventListener('click', () => {
             // You can add further handling or notifications here
 
             // Close the confirmation modal
-            closeDeleteConfirmationPopup();
+            closeEditBookPopup();
 
             // Reload the inventory page or perform any other desired actions
             location.reload();
@@ -71,9 +75,12 @@ confirmDeleteButton.addEventListener('click', () => {
 
 
 
-cancelDeleteButton.addEventListener('click', () => {
+cancelEdit.addEventListener('click', () => {
     // Close the confirmation modal if the user clicks "No"
-    closeDeleteConfirmationPopup();
+    closeEditBookPopup();
+    
+    document.getElementById('bookNameErrorEdit').textContent = '';
+    document.getElementById('bookPagesErrorEdit').textContent = '';
 });
 
 
@@ -155,8 +162,9 @@ popupAddButton.addEventListener('click', () => {
                     bookSearchResultFormR.style.display = "block";
                     bookSearchResultFormL.style.display = "block";
                     submitButton.style.display = "block";
-                    // document.getElementById('submitButton').disabled = false; // Enable the submit button
+                    document.getElementById('submitButton').disabled = false; // Enable the submit button
                     submitButton.disabled = false;
+                    document.getElementById('submitButton').style.backgroundColor = '#C3CDB4'; // Remove the greyed-out style
 
                     
                 } else {
@@ -171,9 +179,9 @@ popupAddButton.addEventListener('click', () => {
         // Send the request
         xhr.send(JSON.stringify({ Title: fullBookName }));
         
-            // Add event listeners to each input field to trigger validation on blur
-        document.getElementById('bookName').addEventListener('blur', validateBookName);
-        document.getElementById('pages').addEventListener('blur', validatePages);
+        // Add event listeners to each input field to trigger validation on blur
+        // document.getElementById('bookName').addEventListener('blur', validateBookName);
+        // document.getElementById('pages').addEventListener('blur', validatePages);
     
         // Attach the validateForm function to the form submission event
         const bookForm = document.querySelector('#bookForm');
@@ -237,6 +245,7 @@ popupAddButton.addEventListener('click', () => {
         document.getElementById("bookName").value ='';
         document.getElementById("author").value ='';
         searchButton.disabled = false;
+        
 
 
         bookSearchResultFormR.style.display = 'none';
@@ -244,6 +253,8 @@ popupAddButton.addEventListener('click', () => {
         
         document.getElementById('bookNameError').textContent = '';
         document.getElementById('bookPagesError').textContent = '';
+                console.log("cancel add popup2");
+
     });
     
 });
@@ -255,10 +266,12 @@ popupAddButton.addEventListener('click', () => {
 function openAddBookPopup() {
     console.log("add popup");
     document.getElementById('AddContainer').style.display = 'block';
+
 }
 
 
 
+// Validation for Add book popup
 validationBookName = true;
 validationBookPages = false;
 
@@ -270,7 +283,7 @@ function validateBookName() {
 
     // Check if book name field is empty
     if (bookName.length === 0) {
-        bookNameError.textContent = 'Book name cannot be empty.';
+        bookNameError.textContent = 'Book title cannot be empty.';
         document.getElementById('submitButton').disabled = true; // Disable the submit button
         document.getElementById('submitButton').style.backgroundColor = '#cccccc'; // Grey out the submit button
         validationBookName = false;
@@ -280,7 +293,7 @@ function validateBookName() {
         
         if (validationBookName && validationBookPages){
             document.getElementById('submitButton').disabled = false; // Enable the submit button
-            document.getElementById('submitButton').style.backgroundColor = ''; // Remove the greyed-out style
+            document.getElementById('submitButton').style.backgroundColor = '#C3CDB4'; // Remove the greyed-out style
 
         }
         
@@ -318,11 +331,10 @@ function validatePages() {
         
         if (validationBookName && validationBookPages){
             document.getElementById('submitButton').disabled = false; // Enable the submit button
-            document.getElementById('submitButton').style.backgroundColor = ''; // Remove the greyed-out style
+            document.getElementById('submitButton').style.backgroundColor = '#C3CDB4'; // Remove the greyed-out style
         }
     }
 }
-
 
 
 // Attach event listener to the book name field to trigger validation on blur
@@ -343,6 +355,10 @@ function validateBookNameError() {
     return true;
 }
 
+// Attach event listener to the book name field to trigger validation on blur
+document.getElementById('bookName').addEventListener('blur', validateBookName);
+
+
 // Add click event listener to the submit button
 submitButton.addEventListener('click', (event) => {
     // Prevent the default form submission behavior
@@ -353,6 +369,117 @@ submitButton.addEventListener('click', (event) => {
 
     // If the book name is not valid, prevent the form submission
     if (!isBookNameValid) {
+        console.log('Form submission prevented due to book name error.');
+        return;
+    }
+
+    // If the book name is valid, proceed with form submission
+    console.log('Form submitted successfully.');
+    // Add your form submission logic here
+});
+
+
+// Validation for Edit book popup
+validationBookNameEdit = true;
+validationBookPagesEdit = false;
+
+// Function to validate book name field
+function validateBookNameEdit() {
+    const bookNameInput = document.getElementById('editBookName');
+    const bookNameErrorEdit = document.getElementById('bookNameErrorEdit');
+    const bookName = bookNameInput.value.trim();
+
+    // Check if book name field is empty
+    if (bookName.length === 0) {
+        bookNameErrorEdit.textContent = 'Book title cannot be empty.';
+        document.getElementById('submitEdit').disabled = true; // Disable the submit button
+        document.getElementById('submitEdit').style.backgroundColor = '#cccccc'; // Grey out the submit button
+        validationBookNameEdit = false;
+    } else {
+        bookNameErrorEdit.textContent = ''; // Remove the error message
+        validationBookNameEdit = true;
+        
+        if (validationBookNameEdit && validationBookPagesEdit){
+            document.getElementById('submitEdit').disabled = false; // Enable the submit button
+            document.getElementById('submitEdit').style.backgroundColor = ''; // Remove the greyed-out style
+
+        }
+        
+    }
+}
+
+
+// Function to validate book pages field - only digits or empty, no negatives, no chars
+function validatePagesEdit() {
+    console.log("validate pages1")
+    const pagesInput = document.getElementById('editPages');
+    const pagesErrorEdit = document.getElementById('bookPagesErrorEdit');
+    const pagesValue = pagesInput.value.trim();
+
+    // Parse the input value as an integer
+    const pages = parseInt(pagesValue, 10);
+
+    // Check if the input is empty
+    if (pagesValue === '') {
+        pagesErrorEdit.textContent = 'Pages field cannot be empty.';
+        document.getElementById('submitEdit').disabled = true; // Disable the submit button
+        document.getElementById('submitEdit').style.backgroundColor = '#cccccc'; // Grey out the submit button
+        validationBookPagesEdit = false;
+        return; // Exit the function early if the input is empty
+            console.log("validate pages2")
+
+    }
+
+    // Check if pages field validation fails
+    if (isNaN(pages) || pages < 0 || !/^\d+$/.test(pagesValue)) {
+        pagesErrorEdit.textContent = 'Pages must be a positive number greater than zero.';
+        document.getElementById('submitEdit').disabled = true; // Disable the submit button
+        document.getElementById('submitEdit').style.backgroundColor = '#cccccc'; // Grey out the submit button
+        validationBookPagesEdit = false;
+    } else {
+        pagesErrorEdit.textContent = ''; // Remove the error message
+        validationBookPagesEdit = true;
+        
+        if (validationBookNameEdit && validationBookPagesEdit){
+            document.getElementById('submitEdit').disabled = false; // Enable the submit button
+            document.getElementById('submitEdit').style.backgroundColor = ''; // Remove the greyed-out style
+        }
+    }
+}
+
+
+// Attach event listener to the book name field to trigger validation on blur
+document.getElementById('editPages').addEventListener('blur', validatePagesEdit);
+
+
+// Function to validate the book name error
+function validateBookNameErrorEdit() {
+    const bookNameErrorEdit = document.getElementById('bookNameErrorEdit').textContent;
+
+    // Check if the book name error message is not empty
+    if (bookNameErrorEdit.trim() !== '') {
+        console.log('Book name error detected. Please fix it.');
+        return false; // Return false if there is an error
+    }
+
+    // Return true if there is no error
+    return true;
+}
+
+// Attach event listener to the book name field to trigger validation on blur
+document.getElementById('editBookName').addEventListener('blur', validateBookNameEdit);
+
+
+// Add click event listener to the submit button
+submitEdit.addEventListener('click', (event) => {
+    // Prevent the default form submission behavior
+    event.preventDefault();
+
+    // Call the function to validate the book name error
+    const isBookNameValidEdit = validateBookNameErrorEdit();
+
+    // If the book name is not valid, prevent the form submission
+    if (!isBookNameValidEdit) {
         console.log('Form submission prevented due to book name error.');
         return;
     }
