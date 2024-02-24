@@ -166,6 +166,7 @@ function applyFilter(filter) {
 // Function to handle the "Submit" button click for the "New Loan" popup
 function handleNewLoanSubmit() {
     
+<<<<<<< HEAD
     var selectedBookValue = document.getElementById("bookIdNewLoan").value;
     var selectedCustomerValue = document.getElementById("customerIdNewLoan").value;
 
@@ -187,6 +188,10 @@ function handleNewLoanSubmit() {
             bookId,
             customerId
         };
+=======
+    // Save the current availability filter to localStorage
+    //localStorage.setItem('availabilityFilter', availabilityDropdown.value);
+>>>>>>> a433f838a2f7b69a83a33746d3be5bc6fd1172b9
         
     
         console.log(loanData);

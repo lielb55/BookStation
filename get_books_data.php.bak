@@ -28,7 +28,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<td>{$row['publisher']}</td>";
     echo "<td>{$row['loadStatus']}</td>";
     echo "<td>";
-    echo "<button class='delete-button' style='border-radius: 50px;'data-book-id='{$row['bookId']}'><i class='fas fa-edit'></i></button>";
+    echo "<button class='delete-button' style='border-radius: 50px;'data-book-id='{$row['bookId']}'><i class='fas fa-trash'></i></button>";
     echo "</td>";
     echo "</tr>";
 }
