@@ -114,8 +114,7 @@
                     
                     
                     <!-- Edit book popup -->
-                    <!--<div id="deleteConfirmationPopup" class="popupContainer">-->
-                    <div id="EditContainer" class="popupContainer">
+                    <div id="EditBookContainer" class="popupContainer">
 
                         <div class="popupContent">
                             
