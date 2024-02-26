@@ -3,13 +3,14 @@ const editButtons = document.querySelectorAll('.delete-button');
 
 console.log("hello");
 // Get the confirmation modal and its buttons
-const editBookPopup = document.getElementById('EditContainer');
+const editBookPopup = document.getElementById('EditBookContainer');
 const submitEdit = document.getElementById('submitEdit');
 const cancelEdit = document.getElementById('CancelEdit');
 const cancelAdd = document.getElementById('cancelAdd');
 const popupAddButton = document.getElementById('AddBookPopupButton');
 const popupAddContainer = document.getElementById('AddContainer');
 const submitButton = document.getElementById('submitButton');
+const submitEditButton = document.getElementById('submitEdit');
 const bookSearchResultFormL = document.getElementById('bookSearchResultFormL');
 const bookSearchResultFormR = document.getElementById('bookSearchResultFormR');
 
@@ -26,12 +27,31 @@ let bookIdToDelete;
 
 // Function to open the confirmation modal
 function openEditBookPopup(bookId) {
-    bookIdToDelete = bookId;
+    bookIdToEdit = bookId;
     editBookPopup.style.display = 'block';
     
     document.getElementById('submitEdit').disabled = false; // Enable the submit button
     document.getElementById('submitEdit').style.backgroundColor = '#C3CDB4'; // Remove the greyed-out style
+    
+    
+     fetch(`get_books_data.php?bookId=${bookId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Check if customer details were retrieved successfully
+            if (data.error) {
+                console.error("Error fetching customer details:", data.error);
+                return;
+            }
 
+            // Populate edit popup fields with book details
+            document.getElementById('editBookId').value = bookId;
+            document.getElementById('editBookName').value = data.title;
+            document.getElementById('editAuthor').value = data.author;
+            document.getElementById('editGenre').value = data.genre;
+            document.getElementById('editPublisher').value = data.publisher;
+            document.getElementById('editPages').value = data.pages;
+        })
+        .catch(error => console.error("Error fetching customer details:", error));
 }
 
 // Function to close the confirmation modal
@@ -44,32 +64,51 @@ editButtons.forEach(button => {
     button.addEventListener('click', () => {
         const bookId = button.getAttribute('data-book-id');
         openEditBookPopup(bookId);
+        console.log(bookId)
     });
 });
 
 submitEdit.addEventListener('click', () => {
-    // Make an AJAX call to trigger the PHP file to delete the book
-    console.log("Deleting book with ID:", bookIdToDelete);
+    // Get values from input fields
+    var bookId = document.getElementById('editBookId').value;  // Adjust this based on your HTML structure
+    var title = document.getElementById('editBookName').value;
+    var pages = document.getElementById('editPages').value;
+    var author = document.getElementById('editAuthor').value;
+    var genre = document.getElementById('editGenre').value;
+    var publisher = document.getElementById('editPublisher').value;
 
-    fetch(`delete_book.php?bookId=${bookIdToDelete}`)
-        .then(response => response.json())
-        console.log("Server Response line 52:", response)
-        // .then(response => {
-        //     console.log("Server Response:", response);
-        //     return response.json();
-        // })
-        .then(data => {
-            // Handle the response from the PHP file (e.g., display a success message)
-            console.log(data);
-            // You can add further handling or notifications here
+    // Create an object with the data
+    var data = {
+        bookId: bookId,
+        title: title,
+        pages: pages,
+        author: author,
+        genre: genre,
+        publisher: publisher
+    };
 
-            // Close the confirmation modal
+    // Make an AJAX call to the server
+    fetch('update_book.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Handle the result from the server
+        console.log(result);
+        // You can add further handling or notifications here
+    })
+    .catch(error => console.error("Error updating book record:", error));
+    //location.reload();
+    //closeEditConfirmationPopup();
+    
+    setTimeout(function() {
             closeEditBookPopup();
-
-            // Reload the inventory page or perform any other desired actions
             location.reload();
-        })
-        .catch(error => console.error("Error deleting book:", error.message || error));
+        }, 1200); // Adjust the delay time (in milliseconds) as needed
 });
 
 
