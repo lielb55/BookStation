@@ -15,48 +15,7 @@ body {
     font-family: inherit;
     margin-bottom: 30px;
     position: relative;
-    /* overflow: hidden; */
-    /* z-index: 1; */
-    /* box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #E4E4E4; */
 }
-
-/* .navButton::before {
-    content: '';
-    width: 0;
-    height: 3em;
-    border-radius: 30em;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(to right, #C5FF78 0%, #C5FF78 100%);
-    transition: .5s ease;
-    display: block;
-    z-index: -1;
-} */
-
-/* .navButton:hover::before {
-    width: 100%;
-} */
-
-/* #headerMenu {
-    width: 100%; 
-    height: 4%;
-    background-color: #4D622E;
-    display: flex;
-    align-items: center;
-    justify-content:center; 
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3); 
-} 
-
-#headerMenu span {
-    font-family: Georgia;
-    font-size: calc(10px + 1vw);
-    color: #bfc7c3;
-} */
-
-/*img {*/
-/*    object-fit: contain;*/
-/*}*/
 
 #logo {
     height: 180px;
@@ -128,10 +87,10 @@ tbody {
 }
 
 .col-lg-2 {
-    height: 100vh;
     background-color:#bfc7c3;
     margin-top: 0.1%;
     justify-content: center;
+    min-height: 100vh;
 }
 
 @media screen and (max-width: 992px) {
@@ -166,7 +125,6 @@ h1{
 
 .actionButton:hover {
     background-color: #708277;
-    /* transform: translateY(10px); */
 }
 
 nav button{
@@ -227,8 +185,6 @@ h2{
 
 .inputGroup {
     font-family: Tahoma;
-    /* margin: 1em 0 1em 0; */
-    /* max-width: 1000px; */
 }
 
 .inputGroup input {
@@ -274,9 +230,6 @@ h2{
 
 .pButton:hover{
     background-color: #E0E4E2;
-    /* box-shadow: 0px 15px 20px rgba(197, 255, 120, 0.4); */
-    /* color: #000000; */
-    /* transform: translateY(-3px); */
 }
 
 
@@ -381,44 +334,6 @@ select#status option {
     width: 90%;
 }
 
-
-
- /* To remove?? */
-
-/*ACTION BUTTONS DESIGN: */
-/* main button1 {
-    padding: 30px 60px    ;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    margin-right: 10px;
-    font-weight: 500;
-    color: #aa0f0f;
-    background-color: #fff;
-    border-radius: 45px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease 0s;
-    cursor: pointer;
-    text-align: center;
-} */
-  
- /* nav button {
-    width: 100%;
-    height: 2.5em; /* Adjusted height for a more compact look
-    margin-bottom: 10px;
-    border-radius: 5px; /* Adjusted border-radius for a slightly rounded look
-    font-size: 16px;
-    font-family: inherit;
-    border: none;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    background-color: #7FA68F;
-    color: #fff;
-    transition: background-color 0.3s ease;
-} */
-
-
 /* The container must be positioned relative: */
 .custom-select {
     position: relative;
@@ -452,11 +367,6 @@ select#status option {
 #confirmDeleteButton{
     background-color: #A65D5D;
 }
-
-
-
-/* TEST */
-
 
 .flip-card {
   background-color: transparent;
