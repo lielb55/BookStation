@@ -1,5 +1,3 @@
-console.log("hello");
-
 const newLoanPopupButton = document.getElementById('newLoanPopupButton');
 const endLoanPopupButton = document.getElementById('endLoanPopupButton');
 const popupLoanContainer = document.getElementById('loanContainer');
@@ -11,37 +9,132 @@ const cancelLoan = document.getElementById('cancelLoan');
 const submitEndLoan = document.getElementById('submitEndLoanButton');
 const cancelEndLoan = document.getElementById('cancelEndLoan');
 
+//for dropdown general
+const selectBox = document.querySelector('.select-box');
+const selectOption = document.querySelector('.select-option');
+// const bookValue = document.querySelector('#bookValue');
+// const bookOptionSearch = document.querySelector('#bookOptionSearch');
+const options = document.querySelector('.options');
+const optionsList = document.querySelectorAll('.options li');
+
+//for books dropdown
+const bookSelectBox = document.querySelector('#bookSelectBox');
+const bookSelectOption = document.querySelector('#bookSelectOption');
+const bookValue = document.querySelector('#bookValue');
+const bookOptionSearch = document.querySelector('#bookOptionSearch');
+const bookOptions = document.querySelector('#bookOptions');
+const bookOptionsList = document.querySelectorAll('#bookOptions li');
+
+// Add event listener to the customers select box
+const customerSelectBox = document.querySelector('#customerSelectBox');
+const customerSelectOption = document.querySelector('#customerSelectOption');
+const customerValue = document.querySelector('#customerValue');
+const customerOptionSearch = document.querySelector('#customerOptionSearch');
+const customerOptions = document.querySelector('#customerOptions');
+const customerOptionsList = document.querySelectorAll('#customerOptions li');
+
+//****booksDropdown section**** 
+
+let bookSelectedOption = '';
+
+// Add event listener to the booksDropdown
+bookSelectOption.addEventListener("click", function () {
+    bookSelectBox.classList.toggle("active");
+});
+
+// Loop through each option list item
+bookOptionsList.forEach(function(option) {
+    option.addEventListener("click", function () {
+        // Update the value of the input field with the selected option
+        bookValue.value = this.textContent;
+        // Update the selected option variable
+        bookSelectedOption = this.textContent;
+        // Close the dropdown
+        bookSelectBox.classList.remove("active");
+        // Print the selected option
+    });
+});
+
+bookOptionSearch.addEventListener("keyup", function () {
+    var filter, li, i, textValue;
+    filter= bookOptionSearch.value.toUpperCase();
+    li = bookOptions.getElementsByTagName('li');
+    for ( i = 0; i < li.length; i++) {
+        liCount = li[i];
+        textValue = liCount.textContent || liCount.innerText;
+        if(textValue.toUpperCase().indexOf(filter) > -1){
+            li[i].style.display='';
+        } 
+        else {
+            li[i].style.display='none';
+        }
+    }
+});
+
+// ****customersDropdown section****
+
+let customerSelectedOption = '';
+
+customerSelectOption.addEventListener('click', function() {
+    customerSelectBox.classList.toggle('active');
+});
+
+customerOptionsList.forEach(function(option) {
+    option.addEventListener('click', function() {
+        customerValue.value = this.textContent;
+        customerSelectedOption = this.textContent;
+        customerSelectBox.classList.remove('active');
+    });
+});
+
+customerOptionSearch.addEventListener('keyup', function() {
+    const filter = this.value.toUpperCase();
+    const options = customerOptions.getElementsByTagName('li');
+    for (let i = 0; i < options.length; i++) {
+        const textValue = options[i].textContent || options[i].innerText;
+        if (textValue.toUpperCase().indexOf(filter) > -1) {
+            options[i].style.display = '';
+        } else {
+            options[i].style.display = 'none';
+        }
+    }
+});
+
+//****availabilityDropdown section**** 
+
 // Add event listener to the availabilityDropdown
 const availabilityDropdown = document.getElementById("availabilityDropdown");
 availabilityDropdown.addEventListener("change", function () {
     const selectedValue = this.value;  // Get the selected value
+    localStorage.setItem("availabilityFilter", selectedValue);  // Store the selected value in localStorage
     filterTable(selectedValue);  // Pass the selected value to filterTable
-    searchByNameFunction(selectedValue); // Add this line to trigger the search function
+    searchByNameFunction();
+    // searchByNameFunction(selectedValue); // Add this line to trigger the search function
 });
 
-
-// After the page loads, set the filter based on the stored value in localStorage
-// const storedAvailabilityFilter = localStorage.getItem("availabilityFilter");
-// if (storedAvailabilityFilter) {
-//     availabilityDropdown.value = storedAvailabilityFilter;
-//     filterTable(storedAvailabilityFilter);
-// } else {
-//     // If no filter is stored, set the default filter
-//     availabilityDropdown.value = "Active";
-//     filterTable("Active");
-// }
-
+// Retrieve the filter value from localStorage when the page loads
+const storedAvailabilityFilter = localStorage.getItem("availabilityFilter");
+if (storedAvailabilityFilter) {
+    availabilityDropdown.value = storedAvailabilityFilter;
+    filterTable(storedAvailabilityFilter);
+} else {
+    // If no filter is stored, set the default filter
+    availabilityDropdown.value = "Active";
+    filterTable("Active");
+}
 
 // Initial table setup
 filterTable(availabilityDropdown.value);  // Pass the initial selected value
 
+// Call applyFilter after reloading the page
+applyFilter(availabilityDropdown.value);
+
+
+// filter the table based on the availabilityDropdown value
 function filterTable(selectedValue) {
     var table, tr, td, i;
     table = document.getElementById("loansTable");
     tr = table.getElementsByTagName("tr");
-
-    // Move the initialization of previousFilter here
-    let previousFilter = selectedValue;
 
     for (i = 0; i < tr.length; i++) {  // run for each row
         td = tr[i].getElementsByTagName("td")[5]; // Get "Loan end date" Column Value
@@ -60,81 +153,8 @@ function filterTable(selectedValue) {
             }
         }
     }
-
-    // Update the global variable with the new selected value
-    previousFilter = selectedValue;
-
-    // Add this line to trigger the search function and pass previousFilter as an argument
-    searchByNameFunction(previousFilter);
-}
-
-// Add a global variable to store the previous filter state
-let previousFilter = availabilityDropdown.value;
-
-
-// Add an event listener to customerNameInput
-const customerNameInput = document.getElementById("customerNameInput");
-customerNameInput.addEventListener("input", function () {
-    // Check if the input is empty
-    if (this.value.trim() === "") {
-        // Reset the table to its original state based on the current selected loan status
-        filterTable(availabilityDropdown.value);
-    } else {
-        // Trigger the search function with the current input
-        searchByNameFunction(availabilityDropdown.value);
-    }
-});
-
-// Call applyFilter after reloading the page
-applyFilter(availabilityDropdown.value);
-
-function searchByNameFunction(previousFilter) {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("customerNameInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("loansTable");
-    tr = table.getElementsByTagName("tr");
-
-    const availabilityDropdown = document.getElementById("availabilityDropdown");
-    const selectedStatus = availabilityDropdown.value;
-
-    for (i = 0; i < tr.length; i++) {
-        const statusColumnIndex = 5; // Index 5 for the "Loan end date" column
-        const nameColumnIndex = 3; // Index 3 for the "Customer Full Name" column
-
-        tdStatus = tr[i].getElementsByTagName("td")[statusColumnIndex];
-        tdName = tr[i].getElementsByTagName("td")[nameColumnIndex];
-
-        if (tdStatus && tdName) {
-            const loanEndDate = tdStatus.textContent || tdStatus.innerText;
-            const customerName = tdName.textContent || tdName.innerText;
-
-            // Check if the customer name contains the filter text
-            const nameMatches = customerName.toUpperCase().indexOf(filter) > -1;
-
-            // Check if the loan status matches the selected filter
-            const statusMatches =
-                // selectedStatus === "Any" ||
-                (selectedStatus === "Active" && loanEndDate === "") ||
-                (selectedStatus === "Not active" && loanEndDate !== "");
-
-            // Display the row only if both name and status match
-            if (nameMatches && statusMatches) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-        }
-    }
-
-    // If the search input is empty, reset the table to its original state
-    if (filter === "") {
-        // Reapply the previous filter state
-        applyFilter(previousFilter);
-    } else {
-        // Store the current filter state
-        previousFilter = selectedStatus;
-    }
+    // Trigger the search function after filtering
+    searchByNameFunction();
 }
 
 function applyFilter(filter) {
@@ -160,87 +180,144 @@ function applyFilter(filter) {
     }
 }
 
+//****customerNameInput section****
 
+// Function to handle searching by customer name
+function searchByNameFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("customerNameInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("loansTable");
+    tr = table.getElementsByTagName("tr");
 
-    
-// Function to handle the "Submit" button click for the "New Loan" popup
-function handleNewLoanSubmit() {
-    
-<<<<<<< HEAD
-    var selectedBookValue = document.getElementById("bookIdNewLoan").value;
-    var selectedCustomerValue = document.getElementById("customerIdNewLoan").value;
+    const selectedStatus = availabilityDropdown.value; // Get the selected filter value
 
-    if (selectedBookValue === "none" || selectedCustomerValue === "none") {
-        console.log("The selected value is 'None'.");
-        loanError.textContent = 'Book and customer values cannot be none';
-    }
+    for (i = 0; i < tr.length; i++) {
+        const statusColumnIndex = 5; // Index 5 for the "Loan end date" column
+        const nameColumnIndex = 3; // Index 3 for the "Customer Full Name" column
 
-    else {
-        // Get the values you want to insert into the loans database
-        const bookIdNewLoan = document.getElementById("bookIdNewLoan");
-        const customerIdNewLoan = document.getElementById("customerIdNewLoan");
-    
-        const bookId = parseInt(bookIdNewLoan.value);
-        const customerId = parseInt(customerIdNewLoan.value);
-    
-        // Create an object to hold the data
-        const loanData = {
-            bookId,
-            customerId
-        };
-=======
-    // Save the current availability filter to localStorage
-    //localStorage.setItem('availabilityFilter', availabilityDropdown.value);
->>>>>>> a433f838a2f7b69a83a33746d3be5bc6fd1172b9
-        
-    
-        console.log(loanData);
-    
-        // Make an AJAX request to insert the data into the sales database
-        fetch("add_loan.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(loanData)
-        })
-        .then(response => response.text())
-        .then(data => {
-        // Handle the response from the PHP file (e.g., display a success message)
-        console.log(data);
-        // You can add further handling or notifications here
-        })
-        .catch(error => console.error("Error inserting data:", error));
-        
-        // Save the current availability filter to localStorage
-        //localStorage.setItem('availabilityFilter', availabilityDropdown.value);
-            
-        // Adding a delay before reloading the page
-        setTimeout(function () {
-            popupLoanContainer.style.display = "none";
-            location.reload();
-        }, 1200); // Adjust the delay time (in milliseconds) as needed
+        tdStatus = tr[i].getElementsByTagName("td")[statusColumnIndex];
+        tdName = tr[i].getElementsByTagName("td")[nameColumnIndex];
+
+        if (tdStatus && tdName) {
+            const loanEndDate = tdStatus.textContent || tdStatus.innerText;
+            const customerName = tdName.textContent || tdName.innerText;
+
+            // Check if the customer name contains the filter text
+            const nameMatches = customerName.toUpperCase().indexOf(filter) > -1;
+
+            // Check if the loan status matches the selected filter
+            const statusMatches = (selectedStatus === "Active" && loanEndDate === "") ||
+                                  (selectedStatus === "Not active" && loanEndDate !== "");
+
+            // Display the row only if both name and status match
+            if (nameMatches && statusMatches) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
     }
 }
 
-// opens new loan popup
+const customerNameInput = document.getElementById("customerNameInput");
+
+// Function to handle input in the customer name input field
+customerNameInput.addEventListener("input", function () {
+    const searchTerm = this.value.trim().toUpperCase();
+    searchByNameFunction(); // Apply the search function whenever the input changes
+});
+
+// Call searchByNameFunction to apply the search when the page loads
+searchByNameFunction();
+
+
+//****New loan section****
+
+// opens new loan popup and attaches event listener for loan submission
 newLoanPopupButton.addEventListener('click', () => {
     popupLoanContainer.style.display = 'block';
-
-    const bookIdNewLoan = document.getElementById("bookIdNewLoan");
-    const customerIdNewLoan = document.getElementById("customerIdNewLoan");
-
-    // Remove previous event listener (if any)
-    submitLoan.removeEventListener("click", handleNewLoanSubmit);
-
-    // Add a new event listener
-    submitLoan.addEventListener("click", handleNewLoanSubmit);
 });
+
+// Add a new event listener for loan submission
+submitLoanButton.addEventListener("click", function () {
+    // Check if a book / customer has been selected
+    if (!bookSelectedOption) {
+        loanError.textContent = 'Please select a book';
+        return;
+    }
+    if (!customerSelectedOption) {
+        loanError.textContent = 'Please select a customer';
+        return;
+    }
+    // Get the selected book ID & customer ID
+    const bookId = parseInt(bookSelectedOption.split(' - ')[0]); // Extract the ID from the bookSelectedOption
+    const customerId = parseInt(customerSelectedOption.split(' - ')[0]); // Extract the ID from the customerSelectedOption
+
+    const loanData = {
+        bookId,
+        customerId
+    };
+    // Make an AJAX request to insert the data into the loans database
+    fetch("add_loan.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loanData)
+    })
+    .then(response => response.text())
+    .then(data => {
+        // Reload the page after a short delay
+        setTimeout(() => {
+            location.reload();
+        }, 1000); // Adjust the delay time (in milliseconds)
+        showSnackbar("Loan created successfully.", true);
+    })
+    .catch(error => {showSnackbar("Server error. Please try again later.", false);});
+    
+    // Close the popup after 300 milliseconds
+    setTimeout(function() {
+        popupLoanContainer.style.display = "none";
+        resetAddPopup();
+    }, 300);
+});
+
+
+// close new loan popup and reset values
+cancelLoan.addEventListener('click', () => {
+    popupLoanContainer.style.display = 'none';
+    
+    // Clear the selected option in the select box
+    bookValue.value = '';
+    customerValue.value = '';
+    
+    // Reset the selected option
+    bookSelectedOption = '';
+    customerSelectedOption = '';
+
+    // Clear the search input
+    bookOptionSearch.value = '';
+    customerOptionSearch.value = '';
+    
+    loanData = {
+    bookId: null,
+    customerId: null
+    };
+
+    // Show all options again in the next time the user will open the popup
+    optionsList.forEach(function(option) {
+        option.style.display = 'block';
+    });
+    document.getElementById('loanError').textContent = '';
+});
+    
+//****End loan section****
 
 // Variable to store the ID of the loan that will be edited
 let loanToEdit;
 
-// Function to open the confirmation modal
+// Function to open the end loan popup
 function openEndLoanContainer(loanId) {
     loanToEdit = loanId;
     fetch(`get_loans_data.php?loanId=${loanId}`)
@@ -251,14 +328,13 @@ function openEndLoanContainer(loanId) {
                 console.error("Error fetching loan details:", data.error);
                 return;
             }
-
             // Populate end loan popup fields with loan details
             document.getElementById('bookIdEndLoan').innerText = `Book ID: ${data.bookIdF}`;
+            document.getElementById('bookTitleEndLoan').innerText = `Book Title: ${data.bookTitle}`;
             document.getElementById('customerIdEndLoan').innerText = `Customer ID: ${data.customerIdF}`;
             document.getElementById('customerNameEndLoan').innerText = `Customer Name: ${data.customerName}`;
         })
         .catch(error => console.error("Error fetching loan details:", error));
-
     popupEndLoanContainer.style.display = 'block';
 }
 
@@ -271,19 +347,16 @@ endLoanButtons.forEach(button => {
     });
 });
 
-
 submitEndLoan.addEventListener("click", function () {
     // Get the values you want to insert into the loans database
     const bookIdEnd = parseInt(bookIdEndLoan.innerText.replace('Book ID: ', ''));
     loanToEdit = parseInt(loanToEdit);
-    //const customerIdEnd = customerIdEndLoan.innerText.replace('Customer ID: ', '');
 
     // Create an object to hold the data
     const loanData = {
         loanToEdit,
         bookIdEnd
     };
-    console.log(loanData);
     // Make an AJAX request to insert the data into the sales database
     fetch("end_loan.php", {
         method: "POST",
@@ -294,74 +367,48 @@ submitEndLoan.addEventListener("click", function () {
     })
     .then(response => response.json())
     .then(data => {
-        // Handle the response from the PHP file (e.g., display a success message)
-        console.log(data);
-        // You can add further handling or notifications here
+        setTimeout(function() {
+        location.reload();
+        }, 1000);
+        showSnackbar("Loan ended successfully.", true);
     })
-    .catch(error => console.error("Error inserting data:", error));
-        
-    //popupEndLoanContainer.style.display = "none";
+    .catch(
+        error => {showSnackbar("Server error. Please try again later.", false);});
+    
+    // Close the popup after 300 milliseconds    
     setTimeout(function () {
         popupEndLoanContainer.style.display = "none";
-        location.reload();
-    }, 1200); // Adjust the delay time (in milliseconds) as needed
-    //location.reload();
-    
-});
-
-// // opens end loan popup
-// endLoanPopupButton.addEventListener('click', () => {
-//     popupEndLoanContainer.style.display = 'block';
-    
-//     const bookIdEndLoan = document.getElementById("bookIdEndLoan");
-//     const customerIdEndLoan = document.getElementById("customerIdEndLoan");
-    
-//     submitEndLoan.addEventListener("click", function () {
-//         // Get the values you want to insert into the loans database
-//         const bookIdEnd = bookIdEndLoan.innerText.replace('Book ID: ', '');
-//         const customerIdEnd = customerIdEndLoan.innerText.replace('Customer ID: ', '');
-
-//         // Create an object to hold the data
-//         const loanData = {
-//             bookIdEnd,
-//             customerIdEnd
-//         };
-    
-//         // Make an AJAX request to insert the data into the sales database
-//         fetch("end_loan.php", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify(loanData)
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 // Handle the response from the PHP file (e.g., display a success message)
-//                 console.log(data);
-//                 // You can add further handling or notifications here
-//             })
-//             .catch(error => console.error("Error inserting data:", error));
-        
-//             popupEndLoanContainer.style.display = "none";
-//         location.reload();
-//     });
-// });
-
-// close new loan popup and reset values
-cancelLoan.addEventListener('click', () => {
-    const bookIdSelect = document.getElementById("bookIdNewLoan");
-    const customerIdSelect = document.getElementById("customerIdNewLoan");
-    
-    popupLoanContainer.style.display = 'none';
-    bookIdSelect.value = 'none';
-    customerIdSelect.value = 'none';
-    
-    document.getElementById('loanError').textContent = '';
-
+    }, 300); // Adjust the delay time (in milliseconds)
 });
 
 // close end loan popup and reset values
 cancelEndLoan.addEventListener('click', () => {
     popupEndLoanContainer.style.display = 'none';
 });
+
+// Function to display snackbar
+function showSnackbar(message, isSuccess) {
+    var snackbarLoans = document.getElementById("snackbarLoans");
+
+    snackbarLoans.textContent = message;
+    
+    // Remove the hidden class initially
+    snackbarLoans.classList.remove("snackbarHidden");
+
+    // Add the show class to make it visible
+    snackbarLoans.classList.add("snackbarShow");
+
+    // After a delay, remove the show class to trigger the fade-out animation
+    setTimeout(function() {
+        snackbarLoans.classList.remove("snackbarShow");
+        // Add back the hidden class after the fade-out animation is complete
+        snackbarLoans.classList.add("snackbarHidden");
+    }, 2000); // Adjust the delay time (in milliseconds) as needed
+
+    // Set background color for error messages
+    if (!isSuccess) {
+        snackbarLoans.style.backgroundColor = '#BD5666';
+    } else{
+        snackbarLoans.style.backgroundColor = '#C3CDB4';
+    }
+}
