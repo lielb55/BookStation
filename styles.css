@@ -5,71 +5,45 @@ body {
     padding: 0;
 }
 
-.navButton {
-    width: 80%;
-    border-width: 1px;
-    border-style:ridge;
-    height: 4em;
-    border-radius: 15px;
-    font-size: 20px;
-    font-family: inherit;
-    margin-bottom: 30px;
-    position: relative;
-}
-
-#logo {
-    height: 180px;
-}
+#logo {height: 180px;}
 
 #logoDiv{
     display: inline-block;
     text-align: center;
-    width: 100%; /* This ensures the content takes the full width of the span */
+    width: 100%;
 }
 
 #titleDiv{
     height: 200px;
     display: flex;
-    flex-direction: column; /* Ensure content is stacked vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    background-image: url('images/title_bg.jpg'); /* Use url() to specify the image path */
-    background-size: cover; /* Adjust based on your preference (e.g., cover, contain) */
-    background-position: center; /* Center both horizontally and vertically */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('images/title_bg.jpg');
+    background-size: cover;
+    background-position: center;
     margin-bottom: 40px;
 }
 
-#titleDiv h1{
-    margin-top:2%;
-}
+#titleDiv h1{margin-top:2%;}
 
 table {
     width: 100%;
     text-align: center;
     margin: auto;
     margin-top: 4%;
-    /* border-collapse: collapse; */
-    /* border-radius: 50px; */
 }
 
-th, td {
-    padding: 10px;
-    /* border-bottom: 1px solid #bfc7c3 */
-    ;
-}
+th, td {padding: 10px;}
 
-td {
-    font-size: 12px;
-}
+td {font-size: 12px;}
 
 th {
     font-size: 16px;
     background-color: #b7967d;
 }
 
-tbody {
-    background-color: #CEB9AA !important;
-} 
+tbody {background-color: #CEB9AA} 
 
 .container-fluid{
     display: flex;
@@ -81,10 +55,7 @@ tbody {
     width: 100%;
 }
 
-.nav{
-    margin-top: 10%;
-   
-}
+.nav{margin-top: 10%;}
 
 .col-lg-2 {
     background-color:#bfc7c3;
@@ -93,11 +64,7 @@ tbody {
     min-height: 100vh;
 }
 
-@media screen and (max-width: 992px) {
-    .col-lg-2 {
-        height: 15%;
-    }
-}
+@media screen and (max-width: 992px) {.col-lg-2 {height: 15%;}}
 
 h1{
     font-family: Georgia;
@@ -105,10 +72,9 @@ h1{
     color: #000;
     text-align: center;
     margin-top: 2%;
-    font-size: calc(18px + 1.5vw); /* Adjust the base and factor as needed */
+    font-size: calc(22px + 1.5vw); 
 }
 
-/*Send button the book name & author to API*/
 .actionButton{
     position: relative;
     margin: auto;
@@ -118,32 +84,38 @@ h1{
     border-style:ridge;
     border-radius: 15px;
     margin-right: 20px;
-    font-size: 18px;
+    font-size: calc(11px + 0.4vw);
     width: 200px;
     font-family: Georgia;
 }
 
-.actionButton:hover {
-    background-color: #708277;
+.actionButton:hover {background-color: #708277;}
+
+.navButton {
+    width: 80%;
+    border-width: 1px;
+    border-style:ridge;
+    height: 4em;
+    border-radius: 15px;
+    font-size: calc(14px + 0.6vw);
+    font-family: inherit;
+    margin-bottom: 30px;
+    position: relative;
 }
 
 nav button{
     background-color: #708277;
     width: 80%;
     height: 4em;
-    font-size: 22px;
     margin-bottom: 30px;
     border-radius: 15px;
 }
 
-.nav{
-    align-items: center;
-}
+.nav{align-items: center;}
 
 h2{
     font-family: Georgia;
-    margin-top: 1%;
-    margin-bottom: 2%;
+    margin-top: 5%;
 }
 
 .popupContainer {
@@ -163,44 +135,32 @@ h2{
     background-size:contain;
     top: 50%;
     left: 50%;
-    width: 60%;
-    height: 55%;
+    width: 70%;
+    height: 92%;
     padding: 2%;
     position: absolute; 
     transform: translate(-50%, -50%);
     border-radius: 10px;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.3);
     z-index: 1001;
-
     display: flex;
     flex-direction: column;
     justify-content: center;    
-    
 }
 
-#customerContainer{
-        justify-content: center;    
-
+#loanContent{
+    /*justify-content: start;   */
+    padding-top: 7%;
+    padding-bottom: 7%;
 }
 
-.inputGroup {
-    font-family: Tahoma;
-}
+#buttonsSectionsAddLoan{margin-top: 22%;}
 
-.inputGroup input {
-    font-size: 110%;
-    padding: 0.8em;
-    outline: none;
-    border: 1px solid rgb(191, 199, 195);
-    background-color: #EBE7E0;
-    border-radius: 15px;
-    width: 100%;
-    margin-right: 5%;
-}
+#customerContainer{justify-content: center;}
 
 .pButton {
     padding: 1.3em 1em;
-    font-size: 16px;
+    font-size: calc(12px + 0.2vw); 
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 2.5px;
@@ -215,64 +175,18 @@ h2{
     outline: none;
     height: auto;
     width: 20%;
-    
 }
 
 .pButtonCancel{
     background-color: #EBE7E0;
     order: 1 /* Set the order to 1 to move it to the left */
-
 }
 
 .pButtonSubmit {
     order: 2; /* Set the order to 2 to move it to the right */
 }
 
-.pButton:hover{
-    background-color: #E0E4E2;
-}
-
-
-/************/
-
-.editInputField {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    position: static;
-    max-width: 240px;
-}
-
-.editInputField label {
-    font-size: 1rem;
-    color: black;
-    font-weight: 700;
-    position: relative;
-    top: 0.4rem;
-    margin: 0 0 0 7px;
-    padding: 0 2px;
-    font-family:'Segoe UI', sans-serif;
-    width: fit-content;
-}
-
-.editInputField input.input {
-    padding: 11px 10px;
-    font-size: 1rem;
-    border: 2px #C5FF78 solid;
-    border-radius: 5px;
-    background: #f2f0f0;
-}
-
-.editInputField input[type=text].input:focus {
-    outline: none;
-}
-.editInputField select {
-    padding: 11px 10px;
-    font-size: 1rem;
-    border: 2px #C5FF78 solid;
-    border-radius: 5px;
-    background: #f2f0f0;
-}
+.pButton:hover{background-color: #E0E4E2;}
 
 .buttonsSections{
     text-align: center; 
@@ -280,16 +194,7 @@ h2{
     padding-bottom: 2%;
     display: flex; 
     justify-content:space-evenly;
-
  }   
- .priceSection{
-    border-style: solid;
-    border-color: #C5FF78; 
-    display:flex; 
-    justify-content: space-around; 
-    margin: 5% ;
-    padding: 5%;
- }
    
 .input {
     padding: 12px 18px;
@@ -300,56 +205,30 @@ h2{
     background-color: #EBE7E0;
     color: #0d0c22;
     transition: .3s ease;
-   }
+}
    
 .input::placeholder {
         color: #000;
-   }
+        font-family: Georgia;
+}
    
+input[type="text"] {font-family: Georgia;}
+
 .input:focus, input:hover {
     outline: none;
     background-color: #E0E4E2;
     box-shadow: 0 0 0 4px #708277;
-   }
-
-select#status option {
-    font-style:inherit;
-    font-size: 11pt;
- }
-
-.searchFields{
-    margin-bottom: 6%;
 }
 
-
-#action_buttons {
-    display: flex;
-    margin-bottom: 2%;
-    padding: 10px;
-    justify-content: left;
-    margin-top: 2%;
-}
-
-#searchButton {
-    width: 90%;
-}
-
-/* The container must be positioned relative: */
-.custom-select {
-    position: relative;
-    font-family:Georgia;
-    background-color: #F8F7F4;
-    font-size: x-large;
-  }
+#searchButton {width: 90%;}
   
 .EndLoanBookDetails {
     font-family: Georgia;
-    font-size: x-large;  
-    /* Add any additional styles here */
+    font-size: calc(8px + 1vw); 
 }
 
 #endLoanContainer label {
-    font-size: x-large;
+    font-size: calc(14px + 1.5vw); 
     margin-right: 20px;
     font-weight: bold;
 }
@@ -359,13 +238,196 @@ select#status option {
     width: 250px;
 }
 
-.modalContent{
-    text-align: center; 
-    height: 30%;
+.error {
+    color: red; 
+    text-align: center;
+    font-size: calc(8px + 0.5vw);
 }
 
-#confirmDeleteButton{
-    background-color: #A65D5D;
+.select-container {
+    display: flex; /* Use flexbox layout */
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+}
+
+.select-box {
+    margin-top: 20px; 
+    width: calc(50% - 10px); /* Set width for each select box, subtracting margin */
+    position: relative;
+}
+
+.select-option{
+    position: relative;
+}
+
+.select-option input{
+    width: 100%;
+    background-color:#fff;
+    color:#000;
+    border-radius:7px;
+    cursor: pointer;
+    font-size: calc(14px + 0.5vw);
+    padding:15px 20px;
+    border: 0 !important;
+    outline: 0 !important;
+}
+
+.select-option: after{
+    content:"";
+    border-top:12px solid #000;
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    position: absolute;
+    right: 15px;
+    top:50%;
+    margin-top:-8px; 
+}
+
+.content{
+    background-color:#fff;
+    position: absolute;
+    color:#000;
+    border-radius: 7px;
+    margin-top:15px;
+    width: 100%;
+    z-index:999;
+    display:none;
+}
+
+.search input,
+#customerOptionSearch{
+    width: 100%;
+    font-size: calc(14px + 0.5vw); 
+    padding:15px;
+    border: 1px solid #b3b3b3;
+    border-radius: 5px;
+    outline: 0;
+}
+
+.options,
+#customerOptions {
+    margin-top:15px;
+    max-height:250px;
+    overflow-y: auto;
+    padding:0;
+    text-align:left;
+}
+
+.options li,
+#customerOptions li{
+   padding: 10px 15px;
+   border-radius: 5px;
+   border-bottom: 1px solid gray;
+    font-size: calc(14px + 0.5vw);
+   cursor:pointer;
+}
+.options li:hover,
+#customerOptions li:hover{
+    background-color:#f2f2f2;
+}
+
+/* Specific styles for book dropdown */
+#bookSelectBox.active .content {
+    display: block;
+}
+
+/* Specific styles for customer dropdown */
+#customerSelectBox.active .content {
+    display: block;
+}
+
+.snackbar {
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: '#C3CDB4';
+    color: black;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 30px;
+    font-size: calc(14px + 0.5vw);
+    border-radius: 15px;
+}
+
+.snackbarHidden{visibility: hidden;}
+
+.snackbarShow {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;} 
+  to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 30px; opacity: 1;} 
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 30px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+.custForm, .container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.leftSide, .rightSide {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.leftSide div, .rightSide div {margin-bottom: 20px;}
+
+.leftSide label, .rightSide label {
+    width: 120px; /* Adjust the width of the labels */
+    display: inline-block; /* Ensure labels are aligned properly */
+    margin-right: 10px; /* Adjust margin between label and input */
+}
+
+.leftSide input, .rightSide input {width: 200px;}
+
+/*Home page CSS */
+#homeBody {font-family: Arial, Helvetica, sans-serif;}
+
+#homePageH1{margin-top:5%;}
+
+#infoRow{
+    display: flex;
+    justify-content: space-around; /* Adjust as needed */
+    align-items: center; /* Optional: Align items vertically */
+}
+
+.flip-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.flip-card-back {
+    background-color: #b7967d;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .flip-card {
@@ -373,6 +435,8 @@ select#status option {
   width: 300px;
   height: 300px;
   perspective: 1000px;
+  margin-top: 6%;
+ border-radius: 15px;
 }
 
 .flip-card-inner {
@@ -385,9 +449,7 @@ select#status option {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
+.flip-card:hover .flip-card-inner {transform: rotateY(180deg);}
 
 .flip-card-front, .flip-card-back {
   position: absolute;
@@ -395,6 +457,7 @@ select#status option {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+    border-radius: 15px;
 }
 
 .flip-card-front {
@@ -402,16 +465,28 @@ select#status option {
   color: black;
 }
 
-.flip-card-back {
-  background-color: #2980b9;
-  color: white;
-  transform: rotateY(180deg);
+/* Style for the topSection (search book) */
+#topSection {
+    width: 90%;
+    background-color: #C0C6C3; 
+    margin: auto; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    padding: 2%; 
+    border-radius: 15px;
+    font-family: Tahoma;
 }
 
-.error {
-    color: red; 
-    font-size: 14px;
-        text-align: center;
+#topSection button {width: 40%;}
 
+#topSection input {
+    font-size: calc(16px + 0.4vw); 
+    padding: 0.8em;
+    outline: none;
+    border: 1px solid rgb(191, 199, 195);
+    background-color: #EBE7E0;
+    border-radius: 15px;
+    width: 100%;
+    margin-right: 5%;
 }
-

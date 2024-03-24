@@ -1,19 +1,8 @@
 <?php
-// Establish a connection to your MySQL database
-$server_name = "localhost";
-$user_name = "lielbn_sysuser";
-$password = "sysuser1234!@";
-$database_name = "lielbn_libraryManage";
 
-$conn = new mysqli($server_name, $user_name, $password, $database_name);
-mysqli_set_charset($conn, "utf8");
+require_once 'db_config.php';
 
-// check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if a specific customer ID is provided in the query parameters
+// Check if a specific book ID is provided in the query parameters
 if (isset($_GET['bookId'])) {
     $bookId = $_GET['bookId'];
 
@@ -30,7 +19,27 @@ if (isset($_GET['bookId'])) {
         header("HTTP/1.1 404 Not Found");
         echo json_encode(["error" => "book not found"]);
     }
-} 
+}
+
+// Check if a specific book title is provided in the query parameters
+else if (isset($_GET['bookTitle'])) {
+    $bookTitle = $_GET['bookTitle'];
+
+    // Fetch data for the book with the provided title
+    $sql = "SELECT * FROM `books` WHERE `title` = '$bookTitle';";
+    $result = mysqli_query($conn, $sql);
+
+    // Check if a book with the same title already exists
+    if (mysqli_num_rows($result) > 0) {
+        // Book with the same title already exists (bad scenario)
+        header("HTTP/1.1 200 OK");
+        echo json_encode(["error" => "Book with the same title already exists"]);
+    } else {
+        // No book with the same title found (good scenario)
+        header("HTTP/1.1 200 OK");
+        echo json_encode(["message" => "No book with the same title found"]);
+    }
+}
 
 else {
     // Fetch data for all books
@@ -46,15 +55,15 @@ else {
     echo "<td>{$row['genre']}</td>";
     echo "<td>{$row['pages']}</td>";
     echo "<td>{$row['publisher']}</td>";
-    echo "<td>{$row['loadStatus']}</td>";
+    echo "<td>{$row['max']}</td>";      // Quantity
+    echo "<td>{$row['quantity']}</td>"; // Available for loan
     echo "<td>";
-    echo "<button class='delete-button' style='border-radius: 50px;'data-book-id='{$row['bookId']}'><i class='fas fa-edit'></i></button>";
+    echo "<button class='edit-button' style='border-radius: 50px;'data-book-id='{$row['bookId']}'><i class='fas fa-edit'></i></button>";
     echo "</td>";
     echo "</tr>";
     }
 }
 
-
 // Close the database connection
-mysqli_close($conn);
+closeConnection($conn);
 ?>

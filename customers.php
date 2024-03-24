@@ -8,14 +8,14 @@
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
-
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
     <div class="container-fluid" >
         <div class="row" >
             <div class="col-lg-2">
 
-                <div id="logoDiv"><img id="logo" src="images/logo.png" alt="logo"></div>
+                <a href="home.php"><div id="logoDiv"><img id="logo" src="images/logo.png" alt="logo"></div></a>
                 <nav class="nav flex-column">     
                     <button class="navButton" onclick="window.location.href='home.php';">Home</button>
                     <button class="navButton" onclick="window.location.href='books.php';">Books</button>
@@ -25,6 +25,8 @@
             
             <div class="col-lg-10">
                 <main>
+                  <div class="snackbar snackbarHidden" id="snackbarCustomer"></div>
+
                     <div id="titleDiv"> <h1>All Customers</h1> </div>
                     <button id="AddCustomerPopupButton" class="actionButton"> <span> &#43; </span>Add Customer</button>
 
@@ -37,35 +39,32 @@
                         <div class="popupContent" style="text-align: center;">
                         <h2>Add customer</h2>
 
-                        <form class= "container" style="display:flex;justify-content: space-evenly;align-items:center;">
+                        <form class="container custForm" style="display:flex;justify-content: space-evenly;align-items:center;">
                                 <div class="leftSide">
-                                    <div class="">
+                                    <div>
                                         <label for="input" class="text">Customer Id:</label>
-                                        <!--<input type="text" id="customerId" class="input" autocomplete="off">-->
-                                        
-                                        <input type="text" id="customerId" class="input" autocomplete="off" required pattern="\d+">
-                                        <!-- Add a custom error message -->
-                                        <!--<div class="invalid-feedback">Please enter a non-empty sequence of digits.</div>-->
-
+                                        <input type="text" id="customerId" class="input" autocomplete="off" required pattern="\d+" maxlength="9">
 
                                     </div>
-                                    <div class="">
+                                    <div>
                                         <label for="fullName" class="text">Full Name:</label>
-                                        <input type="text" id="fullName" class="input" autocomplete="off">
+                                        <input type="text" id="fullName" class="input" autocomplete="off" maxlength="20">
                                     </div>
                                 </div>
 
                                 <div class="rightSide">
-                                    <div class="">
+                                    <div>
                                         <label for="phoneNumber" class="text">Phone:</label>
-                                        <input type="text" id="phoneNumber" class="input" autocomplete="off">
+                                        <input type="text" id="phoneNumber" class="input" autocomplete="off" maxlength="20">
+
                                     </div>
-                                    <div class="">
+                                    <div>
                                         <label for="email" class="text">Email:</label>
-                                        <input type="email" id="email" class="input" autocomplete="off">
+                                        <input type="email" id="email" class="input" autocomplete="off" maxlength="20">
                                     </div>
                                 </div>
                             </form>
+                            
                             <div class ="buttonsSections">
                                 <button class="pButton pButtonCancel" id="cancelCust">Cancel</button>
                                 <button class="pButton pButtonSubmit" id="submitCust">Submit</button>
@@ -91,23 +90,24 @@
                                 <div class="leftSide">
                                     <div class="">
                                         <label for="input" class="text">Customer Id:</label>
-                                        <input type="text" id="editCustomerId" class="input" autocomplete="off" disabled>
+                                        <input type="text" id="editCustomerId" class="input" autocomplete="off" disabled maxlength="9">
 
                                     </div>
                                     <div class="">
-                                        <label for="Email" class="text">Full Name:</label>
-                                        <input type="email" id="editFullName" class="input" autocomplete="off">
+                                        <label for="input" class="text">Full Name:</label>
+                                        <input type="email" id="editFullName" class="input" autocomplete="off" maxlength="20">
+
                                     </div>
                                 </div>
 
                                 <div class="rightSide">
                                     <div class="">
                                         <label for="input" class="text">Phone:</label>
-                                        <input type="text" id="editPhone" class="input" autocomplete="off">
+                                        <input type="text" id="editPhone" class="input" autocomplete="off" maxlength="20">
                                     </div>
                                     <div class="">
                                         <label for="Email" class="text">Email:</label>
-                                        <input type="email" id="editEmail" class="input" autocomplete="off">
+                                        <input type="email" id="editEmail" class="input" autocomplete="off" maxlength="20">
                                     </div>
                                 </div>
                             </form>

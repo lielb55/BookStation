@@ -1,24 +1,13 @@
 <?php
-// Establish a connection to your MySQL database
-$server_name = "localhost";
-$user_name = "lielbn_sysuser";
-$password = "sysuser1234!@";
-$database_name = "lielbn_libraryManage";
 
-$conn = new mysqli($server_name, $user_name, $password, $database_name);
-mysqli_set_charset($conn, "utf8");
-
-// check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_config.php';
 
 // Check if a specific customer ID is provided in the query parameters
 if (isset($_GET['customerid'])) {
     $customerId = $_GET['customerid'];
 
     // Fetch data for the specific customer
-    $sql = "SELECT * FROM `customers` WHERE `customerId` = $customerId;";
+    $sql = "SELECT * FROM `customers` WHERE `customerId` = $customerId; ";
     $result = mysqli_query($conn, $sql);
     
     // Return JSON response with customer details
@@ -51,7 +40,6 @@ else {
     }
 }
 
-
 // Close the database connection
-mysqli_close($conn);
+closeConnection($conn)
 ?>

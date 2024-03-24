@@ -1,17 +1,6 @@
 <?php
-// Establish a connection to your MySQL database
-$server_name = "localhost";
-$user_name = "lielbn_sysuser";
-$password = "sysuser1234!@";
-$database_name = "lielbn_libraryManage";
 
-$conn = new mysqli($server_name, $user_name, $password, $database_name);
-mysqli_set_charset($conn, "utf8");
-
-// check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_config.php';
 
 // Retrieve data from the POST request
 $data = json_decode(file_get_contents('php://input'), true);
@@ -25,7 +14,7 @@ if (isset($data['loanToEdit']) && isset($data['bookIdEnd'])) {
 
     // Prepare and execute the SQL query to update the customer record
     $sql = "UPDATE `bookLoans` SET `loanEndDate` = '$currentDate' WHERE `loanId` = $loanId;";
-    $sql .= "UPDATE `books` SET `loadStatus` = 'available' WHERE `bookId` = $bookId";
+    $sql .= "UPDATE `books` SET `quantity` = `quantity` + 1 WHERE `bookId` = $bookId";
 
     if ($conn->multi_query($sql) === FALSE) {
         $response = ["status" => "error", "message" => "Error updating customer record: " . $conn->error];
@@ -41,5 +30,5 @@ header("Content-Type: application/json");
 echo json_encode($response);
 
 // Close the database connection
-mysqli_close($conn);
+closeConnection($conn);
 ?>

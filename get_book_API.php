@@ -9,7 +9,6 @@ $jsonData = json_decode($requestBody, true);
 // Get the BookTitle from the decoded JSON data
 $bookTitle = isset($jsonData['Title']) ? $jsonData['Title'] : '';
 
-
 $curl = curl_init();
 
 curl_setopt_array($curl, array(

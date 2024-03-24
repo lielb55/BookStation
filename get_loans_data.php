@@ -1,26 +1,16 @@
 <?php
-// Establish a connection to your MySQL database
-$server_name = "localhost";
-$user_name = "lielbn_sysuser";
-$password = "sysuser1234!@";
-$database_name = "lielbn_libraryManage";
 
-$conn = new mysqli($server_name, $user_name, $password, $database_name);
-mysqli_set_charset($conn, "utf8");
-
-// check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_config.php';
 
 // Check if a specific loan ID is provided in the query parameters
 if (isset($_GET['loanId'])) {
     $loanId = $_GET['loanId'];
 
     // Fetch data for the specific loan
-     $sql = "SELECT `bookLoans`.*, `customers`.fullName as customerName 
+     $sql = "SELECT `bookLoans`.*, `books`.title as bookTitle, `customers`.fullName as customerName 
             FROM `bookLoans`
             JOIN `customers` ON `bookLoans`.customerIdF = `customers`.customerId
+            JOIN `books` ON `bookLoans`.bookIdF = `books`.bookId
             WHERE `loanId` = $loanId;";
     $result = mysqli_query($conn, $sql);
 
@@ -60,5 +50,5 @@ if (isset($_GET['loanId'])) {
 }
 
 // Close the database connection
-mysqli_close($conn);
+closeConnection($conn);
 ?>

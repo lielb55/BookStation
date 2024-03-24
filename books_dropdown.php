@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Query to retrieve customer data
-$sql = "SELECT bookId, title FROM books WHERE loadStatus = 'available'";
+$sql = "SELECT bookId, title FROM books WHERE quantity > '0'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -21,13 +21,15 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $bookId = $row["bookId"];
         $title = $row["title"];
-        $selected = ($bookId == $selectedCosCust) ? 'selected' : ''; // Check if it matches selected_cos_cust
-        echo "<option value='$bookId' $selected>$bookId - $title</option>";
+        echo "<li data-bookinfo='$bookId'>$bookId - $title</li>";
+
     }
 } else {
     echo "No book was found.";
 }
 
 // Close the database connection
+
+
 $conn->close();
 ?>

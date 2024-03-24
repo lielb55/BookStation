@@ -21,8 +21,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $customerId = $row["customerId"];
         $fullName = $row["fullName"];
-        $selected = ($customerId == $selectedCosCust) ? 'selected' : ''; // Check if it matches selected_cos_cust
-        echo "<option value='$customerId' $selected>$customerId - $fullName</option>";
+        echo "<li data-customerinfo='$customerId'>$customerId - $fullName</li>";
     }
 } else {
     echo "No book was found.";
